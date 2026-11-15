@@ -1,29 +1,32 @@
 # 🩸 Blood Bank Management System
 
-A beginner-friendly, menu-driven **Blood Bank Management System** developed using Python. This project helps manage blood donors, maintain blood stock, issue blood units, and search for donors based on their blood groups.
+A beginner-friendly, menu-driven **Blood Bank Management System** developed using Python 3 as my first-semester college project.
 
-It uses fundamental Python concepts such as lists, dictionaries, functions, loops, conditional statements, and file handling.
+This project helps manage blood donors, issue blood units, view available blood stock and search for donors based on their blood groups.
+
+It uses basic Python concepts such as lists, dictionaries, functions, loops, conditional statements, file handling and Linear Search.
 
 ## 📌 Project Overview
 
 | Detail | Description |
 |---|---|
 | Project Name | Blood Bank Management System |
+| Project Number | 63 |
 | Programming Language | Python 3 |
 | Project Type | Console-Based Application |
 | Data Storage | Text File (`donors.txt`) |
-| Concepts Used | Lists, Dictionaries, Functions, File Handling |
+| Concepts Used | Lists, Dictionaries, Functions, Loops, File Handling and Searching |
 
 ## ✨ Features
 
-- **Add Donor:** Register new donors with their name, blood group, and donated units.
+- **Add Donor:** Register donors with their name, blood group and donated units.
 - **Blood Group Validation:** Supports all eight standard blood groups.
-- **Issue Blood:** Issue blood units from the available stock.
-- **Stock Management:** View the available quantity of each blood group.
-- **Search Donors:** Find registered donors by blood group.
-- **File Handling:** Save donor records permanently in `donors.txt`.
-- **Input Validation:** Prevent invalid blood groups and non-positive donation or issue quantities.
-- **Insufficient Stock Check:** Prevent issuing more blood units than currently available.
+- **Issue Blood:** Issue blood units according to available stock.
+- **View Stock:** Display the available quantity of each blood group.
+- **Search Donors:** Find registered donors by blood group using Linear Search.
+- **File Handling:** Save donor records in `donors.txt`.
+- **Input Validation:** Prevent invalid blood groups and non-positive or non-numeric unit inputs.
+- **Stock Checking:** Prevent issuing more blood units than currently available.
 
 ## 🩸 Supported Blood Groups
 
@@ -65,9 +68,10 @@ The program starts with the following predefined stock:
 - `while` Loops
 - `for` Loops
 - Conditional Statements
-- File Handling (`open()`, `read`, `write`)
+- File Handling (`open()`, `read()`, `write()`)
 - Exception Handling (`try-except`)
 - Input Validation
+- Linear Search
 
 ## 📂 Project Structure
 
@@ -157,7 +161,7 @@ Each record contains:
 - Blood Group
 - Units Donated
 
-Example:
+**Example:**
 
 ```text
 Rahul,A+,2
@@ -167,25 +171,31 @@ Priya,O+,1
 
 The program loads existing donor records when it starts and appends new donor records to the file.
 
-**Note:** The current blood stock is initialized from the predefined dictionary each time the program runs. Blood issuance changes the stock during the current session but is not permanently saved.
+**Note:** Blood stock is maintained using a Python dictionary. It returns to its predefined initial values whenever the program restarts. Blood donations and issues update the stock only during the current session.
+
+## 📄 Project Documentation
+
+The project report contains the introduction, objectives, features, Python concepts, program working, test cases and conclusion.
+
+📖 **[View Project Documentation](https://docs.google.com/document/d/1keyCJgI8PNrFLvE-zpZRdb5-wkmTYicg_lbEjrE0ZQw/edit?usp=sharing)**
 
 ## 🎯 Learning Outcomes
 
 Through this project, I practised:
 
-- Managing structured data using lists and dictionaries.
-- Creating reusable functions in Python.
+- Using lists and dictionaries to manage data.
+- Creating and using functions in Python.
 - Reading and writing data using file handling.
-- Implementing a menu-driven application.
+- Creating a menu-driven application.
 - Applying loops and conditional statements.
 - Validating user inputs.
+- Understanding Linear Search.
 - Handling missing files using exception handling.
 
 ## 🔮 Future Improvements
 
-- Store blood stock permanently using file handling or a database.
+- Save blood stock permanently using file handling or a database.
 - Add donor registration IDs.
-- Introduce donor eligibility checks.
 - Add blood compatibility information.
 - Develop a graphical user interface.
 - Generate blood donation and issue reports.
@@ -198,3 +208,4 @@ Through this project, I practised:
 B.Tech CSE – Cyber Security  
 Rungta International Skills University
 
+Class: SA 04 | Section: 1D
