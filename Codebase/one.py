@@ -1,7 +1,9 @@
+
 # Blood Bank Management System
 
-vg = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]
+blood_groups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]
 
+# Initial blood stock
 stock = {
     "A+": 10,
     "A-": 0,
@@ -13,133 +15,164 @@ stock = {
     "O-": 0
 }
 
-# List to store donors
-d = []
+# List to store donor details
+donors = []
 
 
-# Load donors from file
 try:
-    file = open("donors.txt", "r")
+    donor_file = open("donors.txt", "r")
 
-    for line in file:
-        data = line.strip().split(",")
+    for line in donor_file:
 
-        if len(data) == 3:
-            donor = {
-                "name": data[0],
-                "blood_group": data[1],
-                "units": int(data[2])
+        donor_data = line.strip().split(",")
+
+        if len(donor_data) == 3:
+
+            donor_name = donor_data[0]
+            donor_blood_group = donor_data[1]
+            donated_units = int(donor_data[2])
+
+            donor_details = {
+                "name": donor_name,
+                "blood_group": donor_blood_group,
+                "units": donated_units
             }
 
-            d.append(donor)
+            donors.append(donor_details)
 
-    file.close()
+    donor_file.close()
 
 except FileNotFoundError:
     pass
 
 
-# Add donor
+# add a new donor
 def add_donor():
 
-    name = input("Enter donor name: ")
-    blood_group = input("Enter blood group: ").upper()
+    donor_name = input("Enter donor name: ")
+    donor_blood_group = input("Enter blood group: ").upper()
 
-    if blood_group not in vg:
+    if donor_blood_group not in blood_groups:
+
         print("Invalid blood group. Valid groups: A+, A-, B+, B-, AB+, AB-, O+, O-.")
         return
 
-    units = input("Enter units donated: ")
+    donated_units = input("Enter units donated: ")
 
-    if not units.isdigit() or int(units) <= 0:
+    if not donated_units.isdigit() or int(donated_units) <= 0:
+
         print("Units must be a positive whole number.")
         return
 
-    units = int(units)
+    donated_units = int(donated_units)
 
-    donor = {
-        "name": name,
-        "blood_group": blood_group,
-        "units": units
+    donor_details = {
+        "name": donor_name,
+        "blood_group": donor_blood_group,
+        "units": donated_units
     }
 
-    d.append(donor)
+    donors.append(donor_details)
 
-    # Save donor in file
-    file = open("donors.txt", "a")
-    file.write(name + "," + blood_group + "," + str(units) + "\n")
-    file.close()
+    # Save donor details in file
+    donor_file = open("donors.txt", "a")
 
-    # Add donated blood to stock
-    stock[blood_group] = stock[blood_group] + units
+    donor_file.write(
+        donor_name + "," +
+        donor_blood_group + "," +
+        str(donated_units) + "\n"
+    )
+
+    donor_file.close()
+
+    # Update blood stock
+    current_stock = stock[donor_blood_group]
+    updated_stock = current_stock + donated_units
+
+    stock[donor_blood_group] = updated_stock
 
     print("Donor saved to donors.txt.")
-    print("Stock of", blood_group, "is now", stock[blood_group], "units.")
+    print("Stock of", donor_blood_group, "is now", updated_stock, "units.")
 
 
-# Issue blood
+# issue blood
 def issue_blood():
 
-    blood_group = input("Enter blood group: ").upper()
+    requested_blood_group = input("Enter blood group: ").upper()
 
-    if blood_group not in vg:
+    if requested_blood_group not in blood_groups:
+
         print("Invalid blood group. Valid groups: A+, A-, B+, B-, AB+, AB-, O+, O-.")
         return
 
-    units = input("Enter units required: ")
+    required_units = input("Enter units required: ")
 
-    if not units.isdigit() or int(units) <= 0:
+    if not required_units.isdigit() or int(required_units) <= 0:
+
         print("Units must be a positive whole number.")
         return
 
-    units = int(units)
+    required_units = int(required_units)
 
-    if stock[blood_group] < units:
-        print("Insufficient stock: only", stock[blood_group],
-              "unit(s) of", blood_group, "available.")
+    available_units = stock[requested_blood_group]
+
+    if available_units < required_units:
+
+        print("Insufficient stock: only", available_units,
+              "unit(s) of", requested_blood_group, "available.")
         return
 
-    stock[blood_group] = stock[blood_group] - units
+    remaining_units = available_units - required_units
 
-    print(units, "unit(s) of", blood_group,
-          "issued. Stock of", blood_group,
-          "is now", stock[blood_group], "units.")
+    stock[requested_blood_group] = remaining_units
+
+    print(required_units, "unit(s) of", requested_blood_group,
+          "issued. Stock of", requested_blood_group,
+          "is now", remaining_units, "units.")
 
 
-# View stock
+# display blood stock
 def view_stock():
 
     print("\nBlood Stock:")
 
-    for group in vg:
-        print(group, ":", stock[group], "unit(s)")
+    for blood_group in blood_groups:
+
+        available_units = stock[blood_group]
+
+        print(blood_group, ":", available_units, "unit(s)")
 
 
-# Search donors
+# search donors
 def search_donors():
 
-    blood_group = input("Enter blood group: ").upper()
+    search_blood_group = input("Enter blood group: ").upper()
 
-    if blood_group not in vg:
+    if search_blood_group not in blood_groups:
+
         print("Invalid blood group. Valid groups: A+, A-, B+, B-, AB+, AB-, O+, O-.")
         return
 
-    print("Donors with blood group", blood_group + ":")
+    print("Donors with blood group", search_blood_group + ":")
 
-    count = 0
+    donor_count = 0
 
-    for donor in d:
+    for donor_details in donors:
 
-        if donor["blood_group"] == blood_group:
+        if donor_details["blood_group"] == search_blood_group:
 
-            count = count + 1
+            donor_count = donor_count + 1
 
-            print(count, ".", donor["name"],
-                  "-", donor["units"], "unit(s)")
+            donor_name = donor_details["name"]
+            donated_units = donor_details["units"]
 
-    print("Total donors found:", count)
+            print(donor_count, ".", donor_name,
+                  "-", donated_units, "unit(s)")
+
+    print("Total donors found:", donor_count)
 
 
+# Main menu
 while True:
 
     print("\n===== BLOOD BANK MANAGEMENT SYSTEM =====")
@@ -149,23 +182,29 @@ while True:
     print("4. Search donors")
     print("5. Exit")
 
-    choice = input("Enter your choice: ")
+    user_choice = input("Enter your choice: ")
 
-    if choice == "1":
+    if user_choice == "1":
+
         add_donor()
 
-    elif choice == "2":
+    elif user_choice == "2":
+
         issue_blood()
 
-    elif choice == "3":
+    elif user_choice == "3":
+
         view_stock()
 
-    elif choice == "4":
+    elif user_choice == "4":
+
         search_donors()
 
-    elif choice == "5":
+    elif user_choice == "5":
+
         print("Thank you for using Blood Bank Management System.")
         break
 
     else:
+
         print("Invalid choice. Please try again.")
