@@ -1,9 +1,5 @@
-
-# Blood Bank Management System
-
 blood_groups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]
 
-# Initial blood stock
 stock = {
     "A+": 10,
     "A-": 0,
@@ -15,7 +11,6 @@ stock = {
     "O-": 0
 }
 
-# List to store donor details
 donors = []
 
 
@@ -46,7 +41,6 @@ except FileNotFoundError:
     pass
 
 
-# add a new donor
 def add_donor():
 
     donor_name = input("Enter donor name: ")
@@ -74,7 +68,6 @@ def add_donor():
 
     donors.append(donor_details)
 
-    # Save donor details in file
     donor_file = open("donors.txt", "a")
 
     donor_file.write(
@@ -85,7 +78,6 @@ def add_donor():
 
     donor_file.close()
 
-    # Update blood stock
     current_stock = stock[donor_blood_group]
     updated_stock = current_stock + donated_units
 
@@ -95,7 +87,6 @@ def add_donor():
     print("Stock of", donor_blood_group, "is now", updated_stock, "units.")
 
 
-# issue blood
 def issue_blood():
 
     requested_blood_group = input("Enter blood group: ").upper()
@@ -131,7 +122,6 @@ def issue_blood():
           "is now", remaining_units, "units.")
 
 
-# display blood stock
 def view_stock():
 
     print("\nBlood Stock:")
@@ -143,7 +133,6 @@ def view_stock():
         print(blood_group, ":", available_units, "unit(s)")
 
 
-# search donors
 def search_donors():
 
     search_blood_group = input("Enter blood group: ").upper()
@@ -172,7 +161,6 @@ def search_donors():
     print("Total donors found:", donor_count)
 
 
-# Main menu
 while True:
 
     print("\n===== BLOOD BANK MANAGEMENT SYSTEM =====")
